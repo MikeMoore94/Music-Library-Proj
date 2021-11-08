@@ -1,41 +1,35 @@
 import React from 'react';
-import Delete from '../Delete/Delete'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './MusicTable.css';
+import '../App';
 
 
-function MusicTable(props){
-    return (
-        <div class="container">
-            <h2>My Music Library</h2>
-            <table class="table table-dark table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Album</th>
-                    <th>Genre</th>
-                    <th>Release Date</th>
-                    <th>Likes</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {props.songs.map((song, index) => (
-                    <tr data-index={index} key={song.id}>
-                        <th scope="row">{song.id}</th>
-                        <td>{song.title}</td>
-                        <td>{song.artist}</td>
-                        <td>{song.album}</td>
-                        <td>{song.genre}</td>
-                        <td>{song.release_date}</td>
-                        <td>{song.likes}</td>
-                        <Delete songid={song.id} deleteSongs={props.deleteSongs} />
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
+
+
+const MusicTable = (props) => {
+    return ( 
+      <div>
+      <h1>PlayList!</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Album</th>
+            <th>Release Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.data.map(data => (
+            <tr>
+              <td>{data.title}</td>
+              <td>{data.artist}</td>
+              <td>{data.album}</td>
+              <td>{data.release_date}</td>
+              <button className="button1" onClick={() => props.delete(data.id)}>Delete</button>
+          </tr>))}
+        </tbody>
+      </table>
+      </div>
     );
 }
-
 export default MusicTable;

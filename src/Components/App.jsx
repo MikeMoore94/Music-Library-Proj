@@ -1,121 +1,64 @@
-import React, {Component} from 'react'
-import axios from 'axios'
-import MusicTable from './MusicTable/musicTable';
-import SongCreator from './SongCreator/songCreator';
-import SearchBar from './SearchBar/searchBar';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import React, { Component } from 'react';
+import axios from 'axios';
+import MusicTable from './MusicTable/MusicTable';
+import './App.css'
+import SongForm from './SongForm/SongForm';
+import Filter from './Filter/Filter';
 
 class App extends Component {
     constructor(props){
-        super(props);
-        
-        this.startFilter = this.startFilter.bind(this)
-        this.filterUpdate = this.filterUpdate.bind(this)
-    
-    
-    }
-    
-    state = {
-        songs: [],
-        renderType:"table",
-        
-    }
+      super(props);
+      this.state = {
+      data: []
+    };
 
-    startFilter(){
-        this.setState({renderType:'filter'})
     }
-
-    filterUpdate(songs){
-        this.setState(
-            {
-                songs:songs,
-                renderType:"table"
-            }
-        )  
-    }
-    
-
     componentDidMount(){
-        this.getAllSongs();
-            
+      this.makeGetRequest();
     }
+    deleteSong = (songID) => {
+        axios.delete("http://127.0.0.1:8000/music/"+songID+"/")
+          .then(response => {
+            if(response.data != null) {
+              alert("Song deleted successfully.");
+              this.makeGetRequest()
+            }
+          });
+          
+      };
 
-    async getAllSongs(){
-        let response = await axios.get('http://127.0.0.1:8000/music/');
-        this.setState({
-            songs: response.data,
-        
-        });
-        return response
-    }
-
-    deleteSong = async (id) => {
-        await axios.delete(`http://127.0.0.1:8000/music/${id}/`)
-        let response = await this.getAllSongs()
-        if(response === undefined){
-            this.setState({
-
-            });
+    async makeGetRequest(){
+        try{
+          let response = await axios.get("http://127.0.0.1:8000/music/")
+          this.setState({
+            data : response.data
+          });
+          console.log(response.data)
         }
-        else{
-            this.setState({
-                songs: response.data
-            });
+        catch(ex){
+          console.log("error in api call");
         }
-    }
-
-    likeSong = async (id) => {
-        await axios.put(`http://127.0.0.1:8000/music/${id}/`)
-        let response = await this.getAllSongs()
-        if(response === undefined){
-            this.setState({
-
-            });
-        }
-        else{
-            this.setState({
-                songs: response.data
-            });
-        }
-    }
-
-
-    newSong = async (song) => {
-        await axios.post('http://127.0.0.1:8000/music/',song)
-        let response = await this.getAllSongs()
-        if(response === undefined){
-            this.setState({
-
-            });
-        }
-        else{
-            this.setState({
-                songs: response.data
-            });
-        }
-    }
-
-    filterSongs=(songsToDisplay)=>{
-        this.setState({
-            currentSongs : songsToDisplay
-        })
     }
     
-    
+    addSongRequest = async (newSong) => { 
+      await axios.post("http://127.0.0.1:8000/music/", newSong)
+      let response = await this.makeGetRequest()
+        if(response === undefined){
+            this.setState({
+
+            });
+        }
+    }
+
+
     render(){
-        return(
-            <div>
-                <SearchBar songs={this.state.songs} filterUpdate={this.filterUpdate}/>
-                <br />
-                <br />
-                <MusicTable songs={this.state.songs} deleteSongs={this.deleteSong}/>
-                <br />
-                <br />
-                <SongCreator newSong={this.newSong.bind(this)}/>
-            </div>
-        );
+      return(
+        <div>
+          <MusicTable delete ={this.deleteSong} data={this.state.data}/>
+          <SongForm  addSongRequest={this.addSongRequest}/>
+        </div>
+      )
+
     }
 }
-
 export default App;
