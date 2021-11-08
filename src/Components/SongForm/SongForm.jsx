@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import Form from 'react-bootstrap/Form'
+import axios from 'axios';
+
 
 class SongForm extends Component {
   constructor(props) {
@@ -13,22 +14,31 @@ class SongForm extends Component {
     }
   }
 
-  onChange=(event)=>{
+  onChange = (event) => {
     this.setState({
-      [event.target.name] : event.target.value
+        [event.target.name]: event.target.value
     })
-  }
+}
 
   handleSubmit = (event) => {
-    event.preventDefault();
-    this.props.createNewSong(this.state)
-}
+      event.preventDefault();
+      const form_data = {
+        title: this.state.title,
+        artist: this.state.artist,
+        album: this.state.album,
+        release_date: this.state.release_date,
+      };
+      let response = axios.post('http://127.0.0.1:800/music/', form_data);
+      let data = response.data;
+      console.log(data);
+  }
+
   
 
   render() { 
     return ( 
       <div className="post">
-        <Form className="post" onSubmit={this.handleSubmit}>
+        <form className="post" onSubmit={(event) => this.handleSubmit}>
         
           <input
           name ="title"
@@ -58,7 +68,7 @@ class SongForm extends Component {
 
 
           <button type="submit">Add Song</button>
-        </Form>
+        </form>
       </div>
     );
   }

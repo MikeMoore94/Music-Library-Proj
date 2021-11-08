@@ -41,10 +41,6 @@ class App extends Component {
         }
     }
 
-    addSong = async (song) => {
-        await axios.post("http://127.0.0.1:8000/music/", song);
-        this.getMusic()
-    }
 
     deleteRow= async(id)=> {
         try{
