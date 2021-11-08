@@ -1,64 +1,102 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import './App.css';
+import MusicTable from './SongsTable/SongsTable';
 import axios from 'axios';
-import MusicTable from './MusicTable/MusicTable';
-import './App.css'
 import SongForm from './SongForm/SongForm';
-import Filter from './Filter/Filter';
+import SearchBar from './SearchBar/SearchBar';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container'
+import Card from 'react-bootstrap/Card'
 
 class App extends Component {
-    constructor(props){
-      super(props);
-      this.state = {
-      data: []
-    };
-
-    }
-    componentDidMount(){
-      this.makeGetRequest();
-    }
-    deleteSong = (songID) => {
-        axios.delete("http://127.0.0.1:8000/music/"+songID+"/")
-          .then(response => {
-            if(response.data != null) {
-              alert("Song deleted successfully.");
-              this.makeGetRequest()
-            }
-          });
-          
-      };
-
-    async makeGetRequest(){
-        try{
-          let response = await axios.get("http://127.0.0.1:8000/music/")
-          this.setState({
-            data : response.data
-          });
-          console.log(response.data)
-        }
-        catch(ex){
-          console.log("error in api call");
+    constructor(props) {
+        super(props);
+        this.state = {
+            songs: [
+                {
+                    title: '',
+                    album: '',
+                    artist: '',
+                    release_date: '',
+                    id: ''
+                }
+            ]
         }
     }
     
-    addSongRequest = async (newSong) => { 
-      await axios.post("http://127.0.0.1:8000/music/", newSong)
-      let response = await this.makeGetRequest()
-        if(response === undefined){
-            this.setState({
+    componentDidMount() {
+        this.getSong();
+    }
 
-            });
+    async getSong() {
+        try{
+            let response = await axios.get('http://127.0.0.1:8000/music/')
+            this.setState({
+                songs: response.data
+                
+            })
+        }
+        catch(except) {
+            alert('Not Working')
         }
     }
 
+    deleteRow= async(id)=> {
+        try{
+            await axios.delete(`http://127.0.0.1:8000/music/${id}/`)
+            this.getSong()
+        }
+        catch(e){
+            console.log(e)
+        }
+        
+    }
+    filterResults =(field, searchTerm)=>{
+        console.log(field)
+        console.log(searchTerm)
+        let results = this.state.songs.filter(function(el){
+            if(el[field] == searchTerm){
+                return true
+            }
+        })
+        this.setState({
+            songs: results
+        })
+    }
 
-    render(){
-      return(
-        <div>
-          <MusicTable delete ={this.deleteSong} data={this.state.data}/>
-          <SongForm  addSongRequest={this.addSongRequest}/>
-        </div>
-      )
+    render() {
+        return(
+            <div class="container p-3 my-3 border" class="container p-3 my-3 bg-white text-black">
+                <h1 className="heading" class="text-center"> Welcome to the Music Library</h1>
+                <Card.Header>Add Songs to the Music Library
+                <Container className="fluid mt-3">
+                        <SongForm 
+                            songs={this.state.songs} 
+                        />
+                </Container>
+                </Card.Header>
+                <Container className="fluid mt-5">
+                    <div>
 
+                        <MusicTable 
+                            songs={this.state.songs}
+                            deleteRow={this.deleteRow} 
+                        />
+                    </div>
+                </Container>
+                <Container className="fluid mt-5">
+                        <SearchBar 
+                            filter = {this.filterResults}
+                            songs={this.state.songs}
+                            filterSongs={this.filterSongs}
+                        />
+                </Container>
+            </div>
+
+                
+            
+        )
     }
 }
+
 export default App;
