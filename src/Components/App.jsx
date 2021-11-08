@@ -41,6 +41,11 @@ class App extends Component {
         }
     }
 
+    addSong = async (song) => {
+        await axios.post("http://127.0.0.1:8000/music/", song);
+        this.getMusic()
+    }
+
     deleteRow= async(id)=> {
         try{
             await axios.delete(`http://127.0.0.1:8000/music/${id}/`)
@@ -55,7 +60,7 @@ class App extends Component {
         console.log(field)
         console.log(searchTerm)
         let results = this.state.songs.filter(function(el){
-            if(el[field] == searchTerm){
+            if(el[field] === searchTerm){
                 return true
             }
         })
@@ -68,10 +73,10 @@ class App extends Component {
         return(
             <div class="container p-3 my-3 border" class="container p-3 my-3 bg-white text-black">
                 <h1 className="heading" class="text-center"> Welcome to the Music Library</h1>
-                <Card.Header>Add Songs to the Music Library
+                <Card.Header>Add Songs to your Library
                 <Container className="fluid mt-3">
                         <SongForm 
-                            songs={this.state.songs} 
+                            createNewSong={this.addSong} 
                         />
                 </Container>
                 </Card.Header>

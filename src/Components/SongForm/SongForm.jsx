@@ -19,32 +19,23 @@ class SongForm extends Component {
     })
   }
 
- 
-
-  handleSubmit = e => {
-    const data = {
-      title: this.state.title,
-      album: this.state.album,
-      artist: this.state.artist,
-      release_date: this.state.release_date
-    };
-    axios
-    .post("http://127.0.0.1:8000/music/", data)
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
-  };
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.createNewSong(this.state)
+}
+  
 
   render() { 
     return ( 
       <div className="post">
         <Form className="post" onSubmit={this.handleSubmit}>
-
+        
           <input
           name ="title"
             placeholder="Title" value={this.state.title}
             onChange={this.onChange} required
           />
-
+          
           <input
           name ="album"
             placeholder="Album" value={this.state.album}
