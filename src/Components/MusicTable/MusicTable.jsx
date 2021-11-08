@@ -1,5 +1,5 @@
 import React from 'react';
-import Delete from '../Delete/delete'
+import Delete from '../Delete/Delete'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 

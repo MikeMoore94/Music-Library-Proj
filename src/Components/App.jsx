@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import MusicTable from './components/MusicTable/musicTable';
-import SongCreator from './components/SongCreator/songCreator';
-import SearchBar from './components/SearchBar/searchBar';
+import MusicTable from './MusicTable/musicTable';
+import SongCreator from './SongCreator/songCreator';
+import SearchBar from './SearchBar/searchBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -105,7 +105,7 @@ class App extends Component {
     
     render(){
         return(
-            <div className="bg-primary">
+            <div>
                 <SearchBar songs={this.state.songs} filterUpdate={this.filterUpdate}/>
                 <br />
                 <br />

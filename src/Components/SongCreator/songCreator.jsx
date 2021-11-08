@@ -53,32 +53,32 @@ class SongCreator extends Component {
                 <h3>Add a New Song</h3>
                     <div>
                         <label>Title:  </label>
-                        <input className="bg-dark" type='text' name='title' onChange={this.handleChange} value={this.state.title}/>
+                        <input  type='text' name='title' onChange={this.handleChange} value={this.state.title}/>
                     </div>
                     <div>
                         <label>Artist:  </label>
-                        <input className="bg-dark" type='text' name='artist' onChange={this.handleChange} value={this.state.artist}/>
+                        <input type='text' name='artist' onChange={this.handleChange} value={this.state.artist}/>
                     </div>
                     <div>
                         <label>Album:  </label>
-                        <input className="bg-dark" type='text' name='album' onChange={this.handleChange} value={this.state.album}/>
+                        <input  type='text' name='album' onChange={this.handleChange} value={this.state.album}/>
                     </div>
                     <div>
                         <label>Release Date:  </label>
-                        <input className="bg-dark" type='text' name='release_date' onChange={this.handleChange} value={this.state.release_date}/>
+                        <input  type='text' name='release_date' onChange={this.handleChange} value={this.state.release_date}/>
                     </div>
                     <div>
                         <label>Likes:  </label>
-                        <input className="bg-dark" type='number' name='likes' onChange={this.handleChange} value={this.state.likes}/>
+                        <input  type='number' name='likes' onChange={this.handleChange} value={this.state.likes}/>
                     </div>
                     <div>
                         <label>Genre:  </label>
-                        <input className="bg-dark" type='text' name='genre' onChange={this.handleChange} value={this.state.genre}/>
+                        <input  type='text' name='genre' onChange={this.handleChange} value={this.state.genre}/>
                         <br/>
                     </div>
                     <div>
                         <br/>
-                        <input className='btn btn-dark' type='submit' value='Submit'/>
+                        <input  type='submit' value='Submit'/>
                     </div>
                 </form>
             </div>
