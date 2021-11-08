@@ -1,7 +1,9 @@
 import React from 'react';
-import './SongTable.css';
+import Delete from '../Delete/delete'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function SongsTable(props){
+
+function MusicTable(props){
     return (
         <div class="container">
             <h2>My Music Library</h2>
@@ -27,7 +29,7 @@ function SongsTable(props){
                         <td>{song.genre}</td>
                         <td>{song.release_date}</td>
                         <td>{song.likes}</td>
-                        
+                        <Delete songid={song.id} deleteSongs={props.deleteSongs} />
                     </tr>
                 ))}
                 </tbody>
@@ -36,4 +38,4 @@ function SongsTable(props){
     );
 }
 
-export default SongsTable;
+export default MusicTable;
